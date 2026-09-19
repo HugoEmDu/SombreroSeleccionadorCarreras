@@ -15,6 +15,7 @@ const CAREERS = {
     emoji: "💻",
     color: "#4A90E2",
     tagline: "El mundo digital te espera",
+    banner: "img/carrera_sistemas.jpg",
     description: (second) =>
       `El Sombrero ve en vos una mente lógica que disfruta resolver acertijos con código y hacer que las cosas funcionen solas. Te fascina la tecnología y tenés potencial para crear los sistemas del futuro.`,
     utnFact: "🎓 En UTN FRRE, los egresados en Sistemas trabajan desde Silicon Valley hasta empresas locales creando soluciones que usan millones de personas. La carrera dura 5 años y es 100% en Resistencia.",
@@ -25,6 +26,7 @@ const CAREERS = {
     emoji: "⚗️",
     color: "#7AC74F",
     tagline: "La materia no guarda secretos para vos",
+    banner: "img/carrera_quimica.jpg",
     description: (second) =>
       `El Sombrero nota en vos una curiosidad insaciable por entender cómo y por qué los materiales se transforman. Tu meticulosidad y fascinación por los experimentos son el combustible perfecto para esta carrera.`,
     utnFact: "🎓 UTN FRRE forma Ingenieros Químicos que trabajan en industrias de alimentos, petroquímica, farmacéutica y medioambiente en todo el NEA. La carrera dura 5 años.",
@@ -35,6 +37,7 @@ const CAREERS = {
     emoji: "⚙️",
     color: "#E8A838",
     tagline: "Las máquinas no tienen secretos para vos",
+    banner: "img/carrera_electromecanica.jpg",
     description: (second) =>
       `El Sombrero percibe que sos de los que abren las cosas para entender cómo funcionan. Te atrae el trabajo manual combinado con el cálculo, y disfrutás cuando una máquina vuelve a la vida gracias a vos.`,
     utnFact: "🎓 Los Ingenieros Electromecánicos de UTN FRRE están presentes en plantas industriales, empresas de energía y mantenimiento de maquinaria en todo el norte argentino. 5 años de carrera.",
@@ -45,6 +48,7 @@ const CAREERS = {
     emoji: "🤖",
     color: "#9B59B6",
     tagline: "Mitad ingeniero, mitad mago tecnológico",
+    banner: "img/carrera_mecatronica.jpg",
     description: (second) =>
       `El Sombrero ve en vos a alguien que quiere lo mejor de tres mundos: mecánica, electrónica y programación. Te apasiona que las máquinas piensen, y soñás con construir robots o sistemas que se muevan solos.`,
     utnFact: "🎓 Mecatrónica en UTN FRRE es una de las carreras más nuevas y demandadas del mercado: robótica, automatización industrial, vehículos autónomos. 5 años en Resistencia.",
@@ -55,6 +59,7 @@ const CAREERS = {
     emoji: "🌾",
     color: "#27AE60",
     tagline: "El campo necesita mentes organizadas como la tuya",
+    banner: "img/carrera_administracion_rural.jpg",
     description: (second) =>
       `El Sombrero nota en vos a alguien con los pies en la tierra (literalmente) y cabeza para los números. Te interesa organizar, producir y liderar proyectos en contacto con la naturaleza y la gente del campo.`,
     utnFact: "🎓 UTN FRRE forma Licenciados en Administración Rural preparados para gestionar establecimientos agropecuarios, agronegocios y proyectos rurales en el Chaco y todo el NEA. Carrera de 4 años.",
@@ -238,6 +243,11 @@ function showResult() {
     `✨ También tenés mucho de... ${secondCareer.emoji} ${secondCareer.name}`;
   document.getElementById("result-utn-fact").textContent = career.utnFact;
   document.getElementById("result-link").href = career.link;
+
+  // Estandarte de la carrera
+  const bannerEl = document.getElementById("result-banner");
+  bannerEl.src = career.banner;
+  bannerEl.alt = `Estandarte de ${career.name}`;
 
   // Barra de scores
   renderScoreBar(top);

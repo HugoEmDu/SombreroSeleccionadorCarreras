@@ -6,9 +6,7 @@
   <title>Sombrero Seleccionador — UTN FRRE</title>
   <meta name="description" content="¿Qué carrera de UTN FRRE es para vos? El Sombrero Seleccionador Vocacional te ayuda a descubrir tu carrera ideal entre Sistemas, Química, Electromecánica, Mecatrónica y Administración Rural." />
 
-  <!-- Preconnect para Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Fuentes y estilos locales (funciona sin internet) -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -122,6 +120,10 @@
 
     <!-- Tarjeta principal -->
     <div id="result-card" class="result-card">
+      <!-- Estandarte de la carrera -->
+      <div class="result-banner-wrap">
+        <img id="result-banner" class="result-banner" src="" alt="Estandarte de la carrera" />
+      </div>
       <span id="result-emoji" class="result-emoji-big">💻</span>
       <h2 id="result-career-name" class="result-career-name">Ingeniería en Sistemas de Información</h2>
       <p id="result-tagline" class="result-tagline">El mundo digital te espera</p>
