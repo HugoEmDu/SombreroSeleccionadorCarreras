@@ -15,7 +15,8 @@ const CAREERS = {
     emoji: "💻",
     color: "#4A90E2",
     tagline: "El mundo digital te espera",
-    banner: "img/carrera_sistemas.jpg",
+    banner: "video estandarte/ISI_Estandarte.mp4",
+    image: "img/carrera_sistemas.jpg",
     description: (second) =>
       `El Sombrero ve en vos una mente lógica que disfruta resolver acertijos con código y hacer que las cosas funcionen solas. Te fascina la tecnología y tenés potencial para crear los sistemas del futuro.`,
     utnFact: "🎓 En UTN FRRE, los egresados en Sistemas trabajan desde Silicon Valley hasta empresas locales creando soluciones que usan millones de personas. La carrera dura 5 años y es 100% en Resistencia.",
@@ -26,7 +27,8 @@ const CAREERS = {
     emoji: "⚗️",
     color: "#7AC74F",
     tagline: "La materia no guarda secretos para vos",
-    banner: "img/carrera_quimica.jpg",
+    banner: "video estandarte/IQ_Estandarte.mp4",
+    image: "img/carrera_quimica.jpg",
     description: (second) =>
       `El Sombrero nota en vos una curiosidad insaciable por entender cómo y por qué los materiales se transforman. Tu meticulosidad y fascinación por los experimentos son el combustible perfecto para esta carrera.`,
     utnFact: "🎓 UTN FRRE forma Ingenieros Químicos que trabajan en industrias de alimentos, petroquímica, farmacéutica y medioambiente en todo el NEA. La carrera dura 5 años.",
@@ -37,7 +39,8 @@ const CAREERS = {
     emoji: "⚙️",
     color: "#E8A838",
     tagline: "Las máquinas no tienen secretos para vos",
-    banner: "img/carrera_electromecanica.jpg",
+    banner: "video estandarte/IEM_Estandarte.mp4",
+    image: "img/carrera_electromecanica.jpg",
     description: (second) =>
       `El Sombrero percibe que sos de los que abren las cosas para entender cómo funcionan. Te atrae el trabajo manual combinado con el cálculo, y disfrutás cuando una máquina vuelve a la vida gracias a vos.`,
     utnFact: "🎓 Los Ingenieros Electromecánicos de UTN FRRE están presentes en plantas industriales, empresas de energía y mantenimiento de maquinaria en todo el norte argentino. 5 años de carrera.",
@@ -48,7 +51,8 @@ const CAREERS = {
     emoji: "🤖",
     color: "#9B59B6",
     tagline: "Mitad ingeniero, mitad mago tecnológico",
-    banner: "img/carrera_mecatronica.jpg",
+    banner: "video estandarte/IME_Estandarte.mp4",
+    image: "img/carrera_mecatronica.jpg",
     description: (second) =>
       `El Sombrero ve en vos a alguien que quiere lo mejor de tres mundos: mecánica, electrónica y programación. Te apasiona que las máquinas piensen, y soñás con construir robots o sistemas que se muevan solos.`,
     utnFact: "🎓 Mecatrónica en UTN FRRE es una de las carreras más nuevas y demandadas del mercado: robótica, automatización industrial, vehículos autónomos. 5 años en Resistencia.",
@@ -59,7 +63,8 @@ const CAREERS = {
     emoji: "🌾",
     color: "#27AE60",
     tagline: "El campo necesita mentes organizadas como la tuya",
-    banner: "img/carrera_administracion_rural.jpg",
+    banner: "video estandarte/LAR_Estandarte.mp4",
+    image: "img/carrera_administracion_rural.jpg",
     description: (second) =>
       `El Sombrero nota en vos a alguien con los pies en la tierra (literalmente) y cabeza para los números. Te interesa organizar, producir y liderar proyectos en contacto con la naturaleza y la gente del campo.`,
     utnFact: "🎓 UTN FRRE forma Licenciados en Administración Rural preparados para gestionar establecimientos agropecuarios, agronegocios y proyectos rurales en el Chaco y todo el NEA. Carrera de 4 años.",
@@ -91,6 +96,7 @@ let state = {
 // ─── Videos ───────────────────────────────────────────────────────────────────
 const VIDEOS = {
   bienvenida: "video/Bienvenida.mp4",
+  proceso: "video/Proceso.mp4",
   transiciones: [
     "video/Transicion1.mp4",
     "video/Transicion2.mp4",
@@ -110,7 +116,7 @@ const VIDEOS = {
 /**
  * Reproduce un video en el overlay y llama a `onEnd` al terminar o al saltar.
  */
-function playVideo(src, onEnd) {
+function playVideo(src, onEnd, keepOverlay = false) {
   const overlay = document.getElementById("video-screen");
   const video   = document.getElementById("main-video");
   const skipBtn = document.getElementById("btn-skip-video");
@@ -122,6 +128,9 @@ function playVideo(src, onEnd) {
   video.src = src;
   overlay.classList.add("active");
   overlay.setAttribute("aria-hidden", "false");
+  
+  // Asegurar que el video sea visible (fade in)
+  video.style.opacity = "1";
 
   video.play().catch(() => {
     // Si autoplay falla (poco probable porque el usuario ya interactuó), saltar directo
@@ -132,15 +141,25 @@ function playVideo(src, onEnd) {
     video.onended = null;
     skipBtn.onclick = null;
 
-    overlay.classList.remove("active");
-    overlay.setAttribute("aria-hidden", "true");
+    if (keepOverlay) {
+      // Fade out solo el video
+      video.style.opacity = "0";
+      setTimeout(() => {
+        video.pause();
+        video.src = "";
+        onEnd();
+      }, 400); // 400ms para coincidir con la transición CSS
+    } else {
+      overlay.classList.remove("active");
+      overlay.setAttribute("aria-hidden", "true");
 
-    // Esperar a que termine la transición CSS (600ms)
-    setTimeout(() => {
-      video.pause();
-      video.src = "";
-      onEnd();
-    }, 600);
+      // Esperar a que termine la transición CSS (600ms)
+      setTimeout(() => {
+        video.pause();
+        video.src = "";
+        onEnd();
+      }, 600);
+    }
   }
 
   video.onended = finishVideo;
@@ -238,12 +257,10 @@ function renderQuestion() {
   progressText.textContent = `Pregunta ${idx + 1} de ${total}`;
   hatSay.textContent = idx === 0 ? "¡El sombrero está listo! Primera pregunta..." : HAT_TRANSITIONS[idx - 1] || "El sombrero delibera...";
 
-  // Actualizar video lateral aleatorio
+  // Actualizar video lateral para usar el video de "proceso" en bucle
   const sideVideo = document.getElementById("quiz-side-video");
-  const randomTransicion = VIDEOS.transiciones[Math.floor(Math.random() * VIDEOS.transiciones.length)];
-  // Evitar recargar si ya es el mismo
-  if (!sideVideo.src.endsWith(randomTransicion)) {
-    sideVideo.src = randomTransicion;
+  if (!sideVideo.src.endsWith(VIDEOS.proceso)) {
+    sideVideo.src = VIDEOS.proceso;
   }
 
   // Animación de entrada
@@ -290,7 +307,7 @@ function selectOption(opt, btn) {
     } else {
       // Última pregunta: reproducir transición antes del resultado
       const transicion = VIDEOS.transiciones[Math.floor(Math.random() * VIDEOS.transiciones.length)];
-      playVideo(transicion, showResult);
+      playVideo(transicion, showResult, false);
     }
   }, 700);
 }
@@ -317,10 +334,19 @@ function showResult() {
   document.getElementById("result-utn-fact").textContent = career.utnFact;
   document.getElementById("result-link").href = career.link;
 
-  // Estandarte de la carrera
-  const bannerEl = document.getElementById("result-banner");
-  bannerEl.src = career.banner;
-  bannerEl.alt = `Estandarte de ${career.name}`;
+  // Estandarte de la carrera (video que termina en imagen)
+  const bannerVideo = document.getElementById("result-banner-video");
+  const bannerImg = document.getElementById("result-banner-img");
+  
+  bannerVideo.src = career.banner;
+  bannerVideo.style.display = "block";
+  bannerImg.src = career.image;
+  bannerImg.style.display = "none";
+  
+  bannerVideo.onended = () => {
+    bannerVideo.style.display = "none";
+    bannerImg.style.display = "block";
+  };
 
   // Reproducir video de la carrera ganadora, luego mostrar la pantalla
   playVideo(VIDEOS.resultado[firstKey], () => {

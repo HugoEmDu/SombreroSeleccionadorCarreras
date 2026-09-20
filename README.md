@@ -65,7 +65,7 @@ Editá únicamente [`questions.js`](questions.js). Cada pregunta tiene esta estr
 - [ ] Compartir resultado por WhatsApp (Web Share API)
 - [ ] Modo quiosco / auto-reset para tablets en stands
 - [ ] Backend Supabase para estadísticas compartidas entre dispositivos
-- [ ] Agregar imágenes/videos de cada carrera
+- [x] Agregar imágenes/videos de cada carrera
 
 ---
 
