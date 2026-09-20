@@ -12,9 +12,30 @@ echo  Iniciando servidor local...
 :: Buscar Python
 where python >nul 2>&1
 if %errorlevel% neq 0 (
-    echo  [ERROR] Python no encontrado. Instalar Python 3 y volver a intentar.
-    pause
-    exit /b 1
+    echo  [INFO] Python no encontrado en el sistema.
+    echo  Descargando e instalando Python de forma automatica...
+    echo  Por favor, espera. Esto puede tardar un par de minutos.
+    
+    :: Descargar instalador de Python usando curl (incluido en Windows 10/11)
+    curl -# -o python_installer.exe https://www.python.org/ftp/python/3.11.8/python-3.11.8-amd64.exe
+    
+    if exist python_installer.exe (
+        :: Instalar silenciosamente solo para el usuario actual y agregarlo al PATH
+        start /wait python_installer.exe /quiet InstallAllUsers=0 PrependPath=1 Include_test=0
+        del python_installer.exe
+        
+        echo  [INFO] Instalacion completada.
+        echo  [INFO] Reiniciando el script para aplicar los cambios...
+        
+        :: El PATH se actualizo en el sistema pero no en esta consola,
+        :: asi que volvemos a ejecutar el script en una consola nueva y cerramos esta.
+        start cmd /c "%~f0"
+        exit
+    ) else (
+        echo  [ERROR] No se pudo descargar Python. Verifica tu conexion a internet.
+        pause
+        exit /b 1
+    )
 )
 
 :: Puerto
