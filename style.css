@@ -106,7 +106,7 @@ body {
 
 /* ── Layout ─────────────────────────────────────────────────────── */
 .app-wrapper {
-  max-width: 680px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 24px 16px 60px;
   position: relative;
@@ -182,12 +182,13 @@ body {
 
 /* ── Intro card ─────────────────────────────────────────────────── */
 .intro-card {
+  max-width: 800px;
+  margin: 0 auto 24px auto;
   background: linear-gradient(135deg, var(--dark-card) 0%, var(--dark-mid) 100%);
   border: 1px solid rgba(212,175,55,0.25);
   border-radius: var(--radius);
   padding: 32px;
   box-shadow: 0 8px 40px var(--shadow), inset 0 1px 0 rgba(212,175,55,0.1);
-  margin-bottom: 24px;
 }
 
 .hat-speech {
@@ -226,6 +227,8 @@ body {
 /* ── Buttons ────────────────────────────────────────────────────── */
 .btn-primary {
   display: block;
+  max-width: 800px;
+  margin: 0 auto;
   width: 100%;
   padding: 18px 24px;
   background: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold) 50%, var(--gold-dim) 100%);
@@ -397,6 +400,72 @@ body {
 .option-btn:disabled { cursor: not-allowed; opacity: 0.6; }
 .option-btn.selected:disabled { opacity: 1; }
 
+/* ── Quiz Layout ────────────────────────────────────────────────── */
+.quiz-layout {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.quiz-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.quiz-video-container {
+  flex: 0 0 450px;
+  position: sticky;
+  top: 20px;
+}
+
+.quiz-video-frame {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow:
+    0 0 40px rgba(212, 175, 55, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  background: var(--dark-card);
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 9 / 16; /* Aspect ratio vertical como los videos */
+}
+
+/* Decoración dorada extra para el marco */
+.quiz-video-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(212, 175, 55, 0.8);
+  border-radius: 10px;
+  margin: 4px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.quiz-side-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .quiz-layout {
+    flex-direction: column;
+  }
+  .quiz-video-container {
+    width: 100%;
+    flex: auto;
+    max-width: 400px;
+    margin: 0 auto 20px auto;
+    position: relative;
+    top: 0;
+    order: -1; /* Video arriba en móviles */
+  }
+}
+
 /* ── Result screen ──────────────────────────────────────────────── */
 .result-header {
   text-align: center;
@@ -421,12 +490,13 @@ body {
 
 .result-card {
   --accent: #D4AF37;
+  max-width: 800px;
+  margin: 0 auto 20px auto;
   background: linear-gradient(145deg, var(--dark-card), var(--dark-mid));
   border: 1px solid rgba(212,175,55,0.3);
   border-radius: var(--radius);
   padding: 0 32px 32px;
   box-shadow: 0 8px 40px var(--shadow), 0 0 60px rgba(212,175,55,0.05);
-  margin-bottom: 20px;
   position: relative;
   overflow: hidden;
 }
@@ -528,10 +598,12 @@ body {
 
 /* ── Score bars ─────────────────────────────────────────────────── */
 .score-bars-section {
-  background: var(--dark-card);
-  border: 1px solid rgba(212,175,55,0.15);
-  border-radius: var(--radius);
-  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(212,175,55,0.1);
+  border-radius: var(--radius-sm);
+  padding: 24px;
   margin-bottom: 20px;
 }
 
@@ -583,8 +655,11 @@ body {
 
 /* ── Result actions ─────────────────────────────────────────────── */
 .result-actions {
+  max-width: 800px;
+  margin: 0 auto;
   display: flex;
-  gap: 12px;
+  gap: 16px;
+  margin-top: 32px;
   margin-bottom: 16px;
 }
 .result-actions .btn-primary { flex: 1; }
@@ -654,6 +729,85 @@ body {
 @keyframes fall {
   0%   { top: -40px; opacity: 1; transform: rotate(0deg); }
   100% { top: 110vh; opacity: 0; transform: rotate(720deg); }
+}
+
+/* ── Video overlay ───────────────────────────────────────────────── */
+.video-overlay {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(13, 6, 0, 0.85); /* var(--dark) con transparencia */
+  backdrop-filter: blur(10px);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.video-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.video-overlay-content {
+  position: relative;
+  width: 90%;
+  max-width: 1000px;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  box-shadow:
+    0 0 60px rgba(212, 175, 55, 0.4),
+    0 12px 48px rgba(0, 0, 0, 0.8);
+  border: 2px solid rgba(212, 175, 55, 0.5);
+  background: #000;
+  overflow: hidden;
+  transform: scale(0.95);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.video-overlay.active .video-overlay-content {
+  transform: scale(1);
+}
+
+.video-overlay-content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(212, 175, 55, 0.8);
+  border-radius: 10px;
+  margin: 6px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.main-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.btn-skip {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--cream);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  z-index: 1001;
+}
+
+.btn-skip:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: var(--gold);
 }
 
 /* ── Estandarte de carrera ───────────────────────────────────────── */

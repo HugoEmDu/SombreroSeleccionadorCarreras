@@ -88,6 +88,65 @@ let state = {
   selectedAnswers: [],
 };
 
+// ─── Videos ───────────────────────────────────────────────────────────────────
+const VIDEOS = {
+  bienvenida: "video/Bienvenida.mp4",
+  transiciones: [
+    "video/Transicion1.mp4",
+    "video/Transicion2.mp4",
+    "video/Transicion3.mp4",
+    "video/Transicion4.mp4",
+    "video/Transicion5.mp4",
+  ],
+  resultado: {
+    sistemas:           "video/Sistemas.mp4",
+    quimica:            "video/Quimica.mp4",
+    electromecanica:    "video/Electromecanica.mp4",
+    mecatronica:        "video/Mecatronica.mp4",
+    administracion_rural: "video/LAR.mp4",
+  },
+};
+
+/**
+ * Reproduce un video en el overlay y llama a `onEnd` al terminar o al saltar.
+ */
+function playVideo(src, onEnd) {
+  const overlay = document.getElementById("video-screen");
+  const video   = document.getElementById("main-video");
+  const skipBtn = document.getElementById("btn-skip-video");
+
+  // Limpiar listener anterior
+  video.onended = null;
+  skipBtn.onclick = null;
+
+  video.src = src;
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden", "false");
+
+  video.play().catch(() => {
+    // Si autoplay falla (poco probable porque el usuario ya interactuó), saltar directo
+    finishVideo();
+  });
+
+  function finishVideo() {
+    video.onended = null;
+    skipBtn.onclick = null;
+
+    overlay.classList.remove("active");
+    overlay.setAttribute("aria-hidden", "true");
+
+    // Esperar a que termine la transición CSS (600ms)
+    setTimeout(() => {
+      video.pause();
+      video.src = "";
+      onEnd();
+    }, 600);
+  }
+
+  video.onended = finishVideo;
+  skipBtn.onclick = finishVideo;
+}
+
 // ─── Utilidades ───────────────────────────────────────────────────────────────
 function shuffle(arr) {
   const a = [...arr];
@@ -154,8 +213,12 @@ function startGame() {
   state.current = 0;
   state.scores = { sistemas: 0, quimica: 0, electromecanica: 0, mecatronica: 0, administracion_rural: 0 };
   state.selectedAnswers = [];
-  showScreen("quiz-screen");
-  renderQuestion();
+
+  // Reproducir video de bienvenida antes de mostrar el quiz
+  playVideo(VIDEOS.bienvenida, () => {
+    showScreen("quiz-screen");
+    renderQuestion();
+  });
 }
 
 // ─── Renderizar pregunta ───────────────────────────────────────────────────────
@@ -174,6 +237,14 @@ function renderQuestion() {
   progressBar.style.width = `${((idx) / total) * 100}%`;
   progressText.textContent = `Pregunta ${idx + 1} de ${total}`;
   hatSay.textContent = idx === 0 ? "¡El sombrero está listo! Primera pregunta..." : HAT_TRANSITIONS[idx - 1] || "El sombrero delibera...";
+
+  // Actualizar video lateral aleatorio
+  const sideVideo = document.getElementById("quiz-side-video");
+  const randomTransicion = VIDEOS.transiciones[Math.floor(Math.random() * VIDEOS.transiciones.length)];
+  // Evitar recargar si ya es el mismo
+  if (!sideVideo.src.endsWith(randomTransicion)) {
+    sideVideo.src = randomTransicion;
+  }
 
   // Animación de entrada
   const card = document.getElementById("question-card");
@@ -217,7 +288,9 @@ function selectOption(opt, btn) {
     if (state.current < state.questions.length) {
       renderQuestion();
     } else {
-      showResult();
+      // Última pregunta: reproducir transición antes del resultado
+      const transicion = VIDEOS.transiciones[Math.floor(Math.random() * VIDEOS.transiciones.length)];
+      playVideo(transicion, showResult);
     }
   }, 700);
 }
@@ -234,7 +307,7 @@ function showResult() {
   // Guardar estadísticas
   saveStats(firstKey);
 
-  // Rellenar resultado
+  // Rellenar resultado (antes de mostrar la pantalla)
   document.getElementById("result-emoji").textContent = career.emoji;
   document.getElementById("result-career-name").textContent = career.name;
   document.getElementById("result-tagline").textContent = career.tagline;
@@ -249,17 +322,17 @@ function showResult() {
   bannerEl.src = career.banner;
   bannerEl.alt = `Estandarte de ${career.name}`;
 
-  // Barra de scores
-  renderScoreBar(top);
-
-  // Color de acento dinámico
-  document.getElementById("result-card").style.setProperty("--accent", career.color);
-
-  // Lanzar confetti mágico
-  launchParticles(career.color);
-
-  showScreen("result-screen");
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  // Reproducir video de la carrera ganadora, luego mostrar la pantalla
+  playVideo(VIDEOS.resultado[firstKey], () => {
+    // Barra de scores
+    renderScoreBar(top);
+    // Color de acento dinámico
+    document.getElementById("result-card").style.setProperty("--accent", career.color);
+    // Lanzar confetti mágico
+    launchParticles(career.color);
+    showScreen("result-screen");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 }
 
 // ─── Barra de puntajes ────────────────────────────────────────────────────────

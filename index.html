@@ -13,6 +13,14 @@
 
 <div id="particles"></div>
 
+<!-- ══════════════ PANTALLA DE VIDEO (overlay) ══════════════ -->
+<div id="video-screen" class="video-overlay" aria-hidden="true">
+  <div class="video-overlay-content">
+    <video id="main-video" class="main-video" playsinline></video>
+    <button id="btn-skip-video" class="btn-skip">Saltar ⏭</button>
+  </div>
+</div>
+
 <div class="app-wrapper">
 
   <!-- ══════════════ PANTALLA INTRO ══════════════ -->
@@ -99,14 +107,27 @@
       </div>
     </div>
 
-    <!-- Tarjeta de pregunta -->
-    <div id="question-card" class="question-card">
-      <p class="question-label">🎩 El Sombrero pregunta...</p>
-      <p id="question-text" class="question-text"></p>
-    </div>
+    <!-- Layout de dos columnas para el quiz -->
+    <div class="quiz-layout">
+      <!-- Columna Izquierda: Preguntas y opciones -->
+      <div class="quiz-content">
+        <!-- Tarjeta de pregunta -->
+        <div id="question-card" class="question-card">
+          <p class="question-label">🎩 El Sombrero pregunta...</p>
+          <p id="question-text" class="question-text"></p>
+        </div>
 
-    <!-- Opciones -->
-    <div id="options-list" class="options-list" role="list" aria-label="Opciones de respuesta"></div>
+        <!-- Opciones -->
+        <div id="options-list" class="options-list" role="list" aria-label="Opciones de respuesta"></div>
+      </div>
+
+      <!-- Columna Derecha: Video del sombrero -->
+      <div class="quiz-video-container">
+        <div class="quiz-video-frame">
+          <video id="quiz-side-video" class="quiz-side-video" autoplay loop muted playsinline></video>
+        </div>
+      </div>
+    </div>
 
   </section>
 
