@@ -18,13 +18,13 @@ const QUESTION_POOL = [
   },
   {
     id: "q002",
-    text: "Te dieron una tarde libre en el colegio. ¿En qué la gastás?",
+    text: "En tus tardes libres, ¿en qué las ocupas?",
     options: [
       { text: "Jugando un videojuego o buscando cómo crear uno", weights: { sistemas: 3 } },
       { text: "Haciendo algún experimento casero (mezclas, fuego, reacciones)", weights: { quimica: 3 } },
       { text: "Armando o desarmando algo con herramientas", weights: { electromecanica: 3 } },
       { text: "Programando un robot o jugando con electrónica", weights: { mecatronica: 3 } },
-      { text: "Saliendo al campo o jardín, cuidando plantas o animales", weights: { administracion_rural: 3 } },
+      { text: "Organizando un evento, la agenda de la semana, o las cuentas de la casa", weights: { administracion_rural: 3 } },
     ],
   },
   {
@@ -56,17 +56,17 @@ const QUESTION_POOL = [
       { text: "Un documental de ciencia o química forense", weights: { quimica: 3 } },
       { text: "Una de ingeniería o de construcción de grandes obras", weights: { electromecanica: 3 } },
       { text: "Una de robots o drones de combate", weights: { mecatronica: 3 } },
-      { text: "Una de vida rural, campo abierto o aventura en la naturaleza", weights: { administracion_rural: 3 } },
+      { text: "Una sobre negocios o como manejar una empresa", weights: { administracion_rural: 3 } },
     ],
   },
   {
     id: "q006",
-    text: "¿Qué materia del colegio te resulta más interesante (o la odiarías menos)?",
+    text: "¿Qué materia del colegio preferís?",
     options: [
       { text: "Informática / Tecnología digital", weights: { sistemas: 3 } },
       { text: "Química", weights: { quimica: 3 } },
       { text: "Física / Tecnología mecánica", weights: { electromecanica: 2, mecatronica: 1 } },
-      { text: "Biología / Ciencias naturales", weights: { quimica: 1, administracion_rural: 2 } },
+      { text: "Biología / Ciencias naturales", weights: { quimica: 1 } },
       { text: "Economía / Administración", weights: { administracion_rural: 3 } },
     ],
   },
@@ -99,7 +99,7 @@ const QUESTION_POOL = [
       { text: "Hacer una receta de química casera (cristales, jabón, tinte)", weights: { quimica: 3 } },
       { text: "Reparar la bici, el skate o arreglar algo del auto", weights: { electromecanica: 3 } },
       { text: "Montar un robot con Arduino o Lego Technic", weights: { mecatronica: 3 } },
-      { text: "Salir a cabalgar, pescar o andar por el campo", weights: { administracion_rural: 3 } },
+      { text: "Vender algo, armar un puesto o manejar la plata de algun evento", weights: { administracion_rural: 3 } },
     ],
   },
   {
@@ -151,7 +151,7 @@ const QUESTION_POOL = [
       { text: "Leyendo documentación y haciendo ejercicios en la computadora", weights: { sistemas: 3 } },
       { text: "En el laboratorio tocando y mezclando materiales reales", weights: { quimica: 3 } },
       { text: "Con herramientas en la mano, construyendo algo físico", weights: { electromecanica: 3, mecatronica: 1 } },
-      { text: "Viendo el campo y hablando con quienes trabajan en él", weights: { administracion_rural: 3 } },
+      { text: "Charlando con gente que ya lo hace y anotando como organizar tiempo y recursos", weights: { administracion_rural: 3 } },
     ],
   },
   {
@@ -184,7 +184,7 @@ const QUESTION_POOL = [
       { text: "La contaminación del agua y el suelo por químicos", weights: { quimica: 3 } },
       { text: "El derroche de energía en fábricas e industrias", weights: { electromecanica: 3 } },
       { text: "La falta de automatización en la industria argentina", weights: { mecatronica: 3, sistemas: 1 } },
-      { text: "La producción de alimentos para una población que crece", weights: { administracion_rural: 3 } },
+      { text: "El desperdicio de recursos y denero por la mala organización", weights: { administracion_rural: 3 } },
     ],
   },
   {
@@ -228,7 +228,7 @@ const QUESTION_POOL = [
       { text: "Un espectrómetro o cromatógrafo de laboratorio", weights: { quimica: 3 } },
       { text: "Una fresadora o torno industrial", weights: { electromecanica: 3 } },
       { text: "Una placa Arduino o Raspberry Pi", weights: { mecatronica: 3, sistemas: 1 } },
-      { text: "Un sistema de gestión de stock para el campo", weights: { administracion_rural: 3 } },
+      { text: "Un sistema de gestión de stock, ventas o producción", weights: { administracion_rural: 3 } },
     ],
   },
   {
@@ -239,7 +239,7 @@ const QUESTION_POOL = [
       { text: "El descubrimiento de la tabla periódica", weights: { quimica: 3 } },
       { text: "La Revolución Industrial (primeras máquinas a vapor)", weights: { electromecanica: 3 } },
       { text: "El lanzamiento del primer robot industrial en una fábrica", weights: { mecatronica: 3 } },
-      { text: "La invención del arado a tracción mecánica", weights: { administracion_rural: 3 } },
+      { text: "La cracion de las primeras cooperativas agropecuarias", weights: { administracion_rural: 3 } },
     ],
   },
   {
@@ -261,7 +261,7 @@ const QUESTION_POOL = [
       { text: "Uno de experimentos químicos o descubrimientos científicos", weights: { quimica: 3 } },
       { text: "Uno de inventos e ingeniería mecánica", weights: { electromecanica: 3 } },
       { text: "Uno de robótica o impresión 3D", weights: { mecatronica: 3 } },
-      { text: "Uno de ganadería, agricultura o ecosistemas rurales", weights: { administracion_rural: 3 } },
+      { text: "Uno sobre cómo se maneja un negocio", weights: { administracion_rural: 3 } },
     ],
   },
   {
