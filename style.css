@@ -114,7 +114,10 @@ body {
 
 /* ── Screens ────────────────────────────────────────────────────── */
 .screen { display: none; animation: fadeIn 0.5s ease; }
-.screen.active { display: block; }
+.screen.active { display: flex; flex-direction: column; justify-content: center; min-height: 100vh; }
+
+/* La pantalla de quiz y resultado no necesitan centrado vertical full */
+#quiz-screen, #result-screen { justify-content: flex-start; min-height: auto; }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(16px); }
@@ -127,39 +130,68 @@ body {
   margin-bottom: 32px;
 }
 
-.hat-container {
+.intro-video-frame {
   position: relative;
-  display: inline-block;
+  display: block;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto 28px;
+  border-radius: 16px;
+  box-shadow:
+    0 0 50px rgba(212, 175, 55, 0.35),
+    0 12px 40px rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(212, 175, 55, 0.45);
+  background: var(--dark-card);
+  overflow: hidden;
+  animation: intro-frame-glow 4s ease-in-out infinite;
 }
 
-.hat-svg {
-  width: 140px;
-  height: 140px;
-  filter: drop-shadow(0 0 20px var(--gold-dim));
-  animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(-3deg); }
-  50%       { transform: translateY(-12px) rotate(3deg); }
-}
-
-.hat-glow-ring {
+/* Doble borde interno dorado igual que .quiz-video-frame::before */
+.intro-video-frame::before {
+  content: '';
   position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 20px;
-  background: radial-gradient(ellipse, var(--glow) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: pulse-glow 4s ease-in-out infinite;
+  inset: 0;
+  border: 1px solid rgba(212, 175, 55, 0.75);
+  border-radius: 14px;
+  margin: 4px;
+  pointer-events: none;
+  z-index: 2;
 }
 
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.6; transform: translateX(-50%) scaleX(1); }
-  50%       { opacity: 1;   transform: translateX(-50%) scaleX(1.2); }
+.intro-video {
+  width: 100%;
+  display: block;
+  object-fit: cover;
 }
+
+/* Carreras debajo del video */
+.intro-careers-wrap {
+  margin-bottom: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.intro-careers-label {
+  font-size: 0.85rem;
+  color: var(--cream-dim);
+  margin-bottom: 14px;
+}
+
+@keyframes intro-frame-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 50px rgba(212, 175, 55, 0.35),
+      0 12px 40px rgba(0, 0, 0, 0.7);
+  }
+  50% {
+    box-shadow:
+      0 0 70px rgba(212, 175, 55, 0.55),
+      0 12px 40px rgba(0, 0, 0, 0.7);
+  }
+}
+
 
 /* ── Typography ─────────────────────────────────────────────────── */
 .title-main {
@@ -212,6 +244,7 @@ body {
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 8px;
+  justify-content: center;
 }
 
 .career-chip {
@@ -853,12 +886,149 @@ body {
   }
 }
 
+/* ── Sección QR del estandarte ──────────────────────────────────── */
+/* ── Sección QR fondos (2 columnas) ────────────────────────────── */
+.result-qr-section {
+  margin: 20px 0 8px;
+}
+
+.qr-fondos-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 1rem;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 18px;
+  text-shadow: 0 1px 8px rgba(212,175,55,0.4);
+}
+
+.qr-fondos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Cada tarjeta de fondo */
+.qr-fondo-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(212,175,55,0.07) 0%, rgba(107,0,0,0.12) 100%);
+  border: 1.5px solid rgba(212,175,55,0.30);
+  border-radius: var(--radius);
+  padding: 16px 14px;
+  position: relative;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  box-shadow:
+    0 0 0 1px rgba(212,175,55,0.08),
+    0 6px 24px rgba(0,0,0,0.4);
+}
+
+.qr-fondo-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(212,175,55,0.55);
+  border-radius: calc(var(--radius) - 2px);
+  margin: 4px;
+  pointer-events: none;
+}
+
+.qr-fondo-card:hover {
+  border-color: rgba(212,175,55,0.60);
+  box-shadow:
+    0 0 0 1px rgba(212,175,55,0.18),
+    0 8px 32px rgba(0,0,0,0.55),
+    0 0 20px rgba(212,175,55,0.12);
+}
+
+/* Área de vista previa del fondo */
+.qr-fondo-preview-wrap {
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: 220px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.3);
+  position: relative;
+  border: 1px solid rgba(212,175,55,0.20);
+}
+
+.qr-fondo-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none; /* se muestra via JS cuando hay imagen */
+  border-radius: 10px;
+}
+
+/* Placeholder cuando no hay imagen aún */
+.qr-fondo-preview-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: 8px;
+  color: var(--cream-dim);
+  font-size: 0.78rem;
+  opacity: 0.6;
+}
+
+.qr-fondo-preview-placeholder span:first-child {
+  font-size: 2rem;
+}
+
+/* Etiqueta del fondo */
+.qr-fondo-label {
+  font-family: 'IM Fell English SC', serif;
+  font-size: 0.85rem;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+
+/* Canvas del QR */
+.qr-canvas-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 168px;
+}
+
+.qr-canvas-wrap canvas {
+  border-radius: 10px;
+  display: block;
+  box-shadow:
+    0 4px 16px rgba(0,0,0,0.5),
+    0 0 0 3px rgba(212,175,55,0.22);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.qr-canvas-wrap canvas:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 6px 24px rgba(0,0,0,0.6),
+    0 0 0 3px rgba(212,175,55,0.50),
+    0 0 18px rgba(212,175,55,0.18);
+}
+
+.qr-label-bottom {
+  font-size: 0.72rem;
+  color: var(--cream-dim);
+  text-align: center;
+  opacity: 0.80;
+}
+
 /* ── Responsive ─────────────────────────────────────────────────── */
 @media (max-width: 480px) {
   .app-wrapper { padding: 16px 12px 48px; }
   .intro-card, .question-card, .result-card { padding: 20px; }
-  .hat-svg { width: 100px; height: 100px; }
+  .intro-video-frame { max-width: 100%; }
   .result-actions { flex-direction: column; }
   .score-row { grid-template-columns: 1fr 1.5fr auto; }
   .result-banner { width: 85%; }
+  .qr-fondos-grid { grid-template-columns: 1fr; }
 }
+
+

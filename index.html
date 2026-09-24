@@ -26,59 +26,19 @@
   <!-- ══════════════ PANTALLA INTRO ══════════════ -->
   <section id="intro-screen" class="screen active">
 
-    <div class="header-deco">
-      <!-- Sombrero SVG artesanal -->
-      <div class="hat-container">
-        <svg class="hat-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <!-- Sombra base -->
-          <ellipse cx="100" cy="170" rx="80" ry="12" fill="rgba(0,0,0,0.4)"/>
-          <!-- Ala del sombrero -->
-          <path d="M20 145 Q100 130 180 145 Q160 158 100 160 Q40 158 20 145Z"
-                fill="#3D1A00" stroke="#D4AF37" stroke-width="1.5"/>
-          <!-- Cuerpo del sombrero -->
-          <path d="M65 145 Q70 90 80 55 Q90 30 100 25 Q110 30 120 55 Q130 90 135 145Z"
-                fill="#2A1200" stroke="#D4AF37" stroke-width="1.5"/>
-          <!-- Banda dorada -->
-          <path d="M67 132 Q100 126 133 132" stroke="#D4AF37" stroke-width="4" stroke-linecap="round"/>
-          <!-- Hebilla -->
-          <rect x="88" y="126" width="24" height="14" rx="2" fill="#1A0800" stroke="#D4AF37" stroke-width="1.5"/>
-          <rect x="93" y="131" width="14" height="4" rx="1" fill="#D4AF37"/>
-          <!-- Ojos expresivos -->
-          <ellipse cx="85" cy="100" rx="8" ry="9" fill="#D4AF37" opacity="0.9"/>
-          <ellipse cx="115" cy="100" rx="8" ry="9" fill="#D4AF37" opacity="0.9"/>
-          <ellipse cx="85" cy="101" rx="5" ry="6" fill="#1A0800"/>
-          <ellipse cx="115" cy="101" rx="5" ry="6" fill="#1A0800"/>
-          <!-- Brillo ojos -->
-          <ellipse cx="87" cy="98" rx="2" ry="2" fill="white" opacity="0.8"/>
-          <ellipse cx="117" cy="98" rx="2" ry="2" fill="white" opacity="0.8"/>
-          <!-- Boca curiosa -->
-          <path d="M86 118 Q100 126 114 118" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <!-- Brillo en el sombrero -->
-          <path d="M82 65 Q85 55 95 50" stroke="rgba(212,175,55,0.3)" stroke-width="2" stroke-linecap="round"/>
-          <!-- Estrellas mágicas -->
-          <text x="35" y="80" font-size="16" fill="rgba(212,175,55,0.6)" transform="rotate(-20,35,80)">✦</text>
-          <text x="150" y="75" font-size="12" fill="rgba(212,175,55,0.5)" transform="rotate(15,150,75)">✦</text>
-          <text x="25" y="120" font-size="10" fill="rgba(212,175,55,0.4)">⭐</text>
-          <text x="160" y="115" font-size="10" fill="rgba(212,175,55,0.4)">⭐</text>
-        </svg>
-        <div class="hat-glow-ring"></div>
-      </div>
-    </div>
-
     <h1 class="title-main" style="text-align:center;">El Sombrero<br>Seleccionador</h1>
     <p class="title-sub" style="text-align:center;">¿Cuál es tu carrera en UTN FRRE?</p>
 
-    <div class="intro-card">
-      <p class="hat-speech">
-        "¡Ah! Otro joven que busca su destino... El Sombrero lleva décadas leyendo mentes y nunca se ha equivocado
-        <span class="highlight">... casi nunca</span>. Responde con sinceridad y te revelaré qué carrera está escrita en tu futuro.
-        <br><br>
-        Tendrás <span class="highlight">9 preguntas</span>, elegidas al azar entre mis más de 28 acertijos. Cada respuesta alimenta mi saber y me acerca a tu verdadero yo."
-      </p>
+    <!-- Video principal reemplaza el cuadro de texto -->
+    <div class="intro-video-frame">
+      <video class="intro-video" autoplay loop muted playsinline>
+        <source src="video/Inicio.mp4" type="video/mp4">
+      </video>
+    </div>
 
-      <p style="font-size:0.85rem; color: var(--cream-dim); margin-bottom: 16px; text-align:center;">
-        Las carreras entre las que el Sombrero puede elegirte:
-      </p>
+    <!-- Chips de carreras -->
+    <div class="intro-careers-wrap">
+      <p class="intro-careers-label">Las carreras entre las que el Sombrero puede elegirte:</p>
       <div class="careers-preview">
         <span class="career-chip">💻 Sistemas de Información</span>
         <span class="career-chip">⚗️ Ingeniería Química</span>
@@ -92,6 +52,7 @@
 
     <p class="footer-note">UTN FRRE · Resistencia, Chaco · Jornadas de Orientación Vocacional</p>
   </section>
+
 
   <!-- ══════════════ PANTALLA QUIZ ══════════════ -->
   <section id="quiz-screen" class="screen">
@@ -158,9 +119,42 @@
 
       <div id="result-utn-fact" class="result-utn-fact"></div>
 
-      <a id="result-link" href="#" target="_blank" rel="noopener" class="result-link-btn">
-        🎓 Conocé la carrera en UTN FRRE →
-      </a>
+      <!-- QRs de fondos en Drive: 2 opciones -->
+      <div id="result-qr-section" class="result-qr-section">
+        <div class="qr-fondos-title">📲 Elegí tu fondo y escaneá para descargarlo</div>
+        <div class="qr-fondos-grid">
+
+          <!-- Fondo 1 -->
+          <div class="qr-fondo-card">
+            <div class="qr-fondo-preview-wrap">
+              <img id="result-fondo-img-1" class="qr-fondo-preview" src="" alt="Vista previa Fondo 1" />
+              <div class="qr-fondo-preview-placeholder" id="result-fondo-placeholder-1">
+                <span>🖼️</span>
+                <span>Fondo 1</span>
+              </div>
+            </div>
+            <div class="qr-fondo-label">Fondo 1</div>
+            <div id="result-qr-canvas-1" class="qr-canvas-wrap"></div>
+            <div class="qr-label-bottom">Apuntá la cámara al QR</div>
+          </div>
+
+          <!-- Fondo 2 -->
+          <div class="qr-fondo-card">
+            <div class="qr-fondo-preview-wrap">
+              <img id="result-fondo-img-2" class="qr-fondo-preview" src="" alt="Vista previa Fondo 2" />
+              <div class="qr-fondo-preview-placeholder" id="result-fondo-placeholder-2">
+                <span>🖼️</span>
+                <span>Fondo 2</span>
+              </div>
+            </div>
+            <div class="qr-fondo-label">Fondo 2</div>
+            <div id="result-qr-canvas-2" class="qr-canvas-wrap"></div>
+            <div class="qr-label-bottom">Apuntá la cámara al QR</div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
     <!-- Barras de puntaje -->
@@ -188,6 +182,7 @@
 
 <!-- Scripts (orden importa: questions primero, luego app) -->
 <script src="questions.js"></script>
+<script src="qrcode.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

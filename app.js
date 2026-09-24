@@ -17,6 +17,10 @@ const CAREERS = {
     tagline: "El mundo digital te espera",
     banner: "video estandarte/ISI_Estandarte.mp4",
     image: "img/carrera_sistemas.jpg",
+    driveUrl:  "https://drive.google.com/file/d/1zzYjPLuNCVjcdgRGrT2N7H-AoGQoZfFn/view?usp=sharing",
+    driveUrl2: "https://drive.google.com/file/d/19HV5f9K5r_C0kSc7n-nF1fRXbm81xeO4/view?usp=sharing",
+    fondoImg:  "fondos/Fondo1_Sistemas.png",
+    fondoImg2: "fondos/Fondo2_Sistemas.png",
     description: (second) =>
       `El Sombrero ve en vos una mente lógica que disfruta resolver acertijos con código y hacer que las cosas funcionen solas. Te fascina la tecnología y tenés potencial para crear los sistemas del futuro.`,
     utnFact: "🎓 En UTN FRRE, los egresados en Sistemas trabajan desde Silicon Valley hasta empresas locales creando soluciones que usan millones de personas. La carrera dura 5 años y es 100% en Resistencia.",
@@ -29,6 +33,10 @@ const CAREERS = {
     tagline: "La materia no guarda secretos para vos",
     banner: "video estandarte/IQ_Estandarte.mp4",
     image: "img/carrera_quimica.jpg",
+    driveUrl:  "https://drive.google.com/file/d/1AOWFyHAg-0zuDjqZv7UnzFaGfkeEFXER/view?usp=sharing",
+    driveUrl2: "https://drive.google.com/file/d/1QW_EhKKqmozx3MpNQZNYNuz1ELElu-7p/view?usp=sharing",
+    fondoImg:  "fondos/Fondo1_IQ.jpg",
+    fondoImg2: "fondos/Fondo2_IQ.png",
     description: (second) =>
       `El Sombrero nota en vos una curiosidad insaciable por entender cómo y por qué los materiales se transforman. Tu meticulosidad y fascinación por los experimentos son el combustible perfecto para esta carrera.`,
     utnFact: "🎓 UTN FRRE forma Ingenieros Químicos que trabajan en industrias de alimentos, petroquímica, farmacéutica y medioambiente en todo el NEA. La carrera dura 5 años.",
@@ -41,6 +49,10 @@ const CAREERS = {
     tagline: "Las máquinas no tienen secretos para vos",
     banner: "video estandarte/IEM_Estandarte.mp4",
     image: "img/carrera_electromecanica.jpg",
+    driveUrl:  "https://drive.google.com/file/d/1K2kD5UqLIs6lo7zExKuzuq2t6bPIgfF8/view?usp=sharing",
+    driveUrl2: "https://drive.google.com/file/d/1gKsdZMnJpg-Qvc20D3GKO-KHcftWUPLC/view?usp=sharing",
+    fondoImg:  "fondos/Fondo1_IEM.png",
+    fondoImg2: "fondos/Fondo2_IEM.png",
     description: (second) =>
       `El Sombrero percibe que sos de los que abren las cosas para entender cómo funcionan. Te atrae el trabajo manual combinado con el cálculo, y disfrutás cuando una máquina vuelve a la vida gracias a vos.`,
     utnFact: "🎓 Los Ingenieros Electromecánicos de UTN FRRE están presentes en plantas industriales, empresas de energía y mantenimiento de maquinaria en todo el norte argentino. 5 años de carrera.",
@@ -53,6 +65,10 @@ const CAREERS = {
     tagline: "Mitad ingeniero, mitad mago tecnológico",
     banner: "video estandarte/IME_Estandarte.mp4",
     image: "img/carrera_mecatronica.jpg",
+    driveUrl:  "https://drive.google.com/file/d/17StQR46rH0zhjRZkXLTIOe7s9GuQFWJp/view?usp=sharing",
+    driveUrl2: "https://drive.google.com/file/d/1VOUL4KDTDjHH5AbvJz7QMgmfqNQ3xC5o/view?usp=sharing",
+    fondoImg:  "fondos/Fondo1_IME.png",
+    fondoImg2: "fondos/Fondo2_IME.png",
     description: (second) =>
       `El Sombrero ve en vos a alguien que quiere lo mejor de tres mundos: mecánica, electrónica y programación. Te apasiona que las máquinas piensen, y soñás con construir robots o sistemas que se muevan solos.`,
     utnFact: "🎓 Mecatrónica en UTN FRRE es una de las carreras más nuevas y demandadas del mercado: robótica, automatización industrial, vehículos autónomos. 5 años en Resistencia.",
@@ -65,6 +81,10 @@ const CAREERS = {
     tagline: "El campo necesita mentes organizadas como la tuya",
     banner: "video estandarte/LAR_Estandarte.mp4",
     image: "img/carrera_administracion_rural.jpg",
+    driveUrl:  "https://drive.google.com/file/d/1L-r6E90J02QcIm0-nem9rPs9SmyyoKcM/view?usp=sharing",
+    driveUrl2: "https://drive.google.com/file/d/1pYYsjgJZXk0zSszJAam9xBUOHI16LpzA/view?usp=sharing",
+    fondoImg:  "fondos/Fondo1_LAR.png",
+    fondoImg2: "fondos/Fondo2_LAR.png",
     description: (second) =>
       `El Sombrero nota en vos a alguien con los pies en la tierra (literalmente) y cabeza para los números. Te interesa organizar, producir y liderar proyectos en contacto con la naturaleza y la gente del campo.`,
     utnFact: "🎓 UTN FRRE forma Licenciados en Administración Rural preparados para gestionar establecimientos agropecuarios, agronegocios y proyectos rurales en el Chaco y todo el NEA. Carrera de 4 años.",
@@ -332,7 +352,44 @@ function showResult() {
   document.getElementById("result-second").textContent =
     `✨ También tenés mucho de... ${secondCareer.emoji} ${secondCareer.name}`;
   document.getElementById("result-utn-fact").textContent = career.utnFact;
-  document.getElementById("result-link").href = career.link;
+
+  // Generar los 2 QRs de fondos
+  function makeQR(canvasId, url) {
+    const wrap = document.getElementById(canvasId);
+    if (!wrap) return;
+    wrap.innerHTML = "";
+    if (typeof QRCode !== "undefined") {
+      QRCode.toCanvas(
+        document.createElement("canvas"),
+        url,
+        { width: 160, margin: 2, color: { dark: "#0D0600", light: "#F5E6C8" }, errorCorrectionLevel: "H" },
+        function (err, canvas) {
+          if (!err) { canvas.id = canvasId + "-el"; wrap.appendChild(canvas); }
+        }
+      );
+    }
+  }
+
+  makeQR("result-qr-canvas-1", career.driveUrl);
+  makeQR("result-qr-canvas-2", career.driveUrl2);
+
+  // Vista previa de los fondos
+  function setFondoPreview(imgId, placeholderId, src) {
+    const img  = document.getElementById(imgId);
+    const ph   = document.getElementById(placeholderId);
+    if (!img || !ph) return;
+    if (src) {
+      img.src = src;
+      img.style.display = "block";
+      ph.style.display  = "none";
+    } else {
+      img.style.display = "none";
+      ph.style.display  = "flex";
+    }
+  }
+
+  setFondoPreview("result-fondo-img-1", "result-fondo-placeholder-1", career.fondoImg);
+  setFondoPreview("result-fondo-img-2", "result-fondo-placeholder-2", career.fondoImg2);
 
   // Estandarte de la carrera (video que termina en imagen)
   const bannerVideo = document.getElementById("result-banner-video");
