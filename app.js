@@ -298,7 +298,18 @@ function renderQuestion() {
     const btn = document.createElement("button");
     btn.className = "option-btn";
     btn.id = `option-${i}`;
-    btn.textContent = opt.text;
+
+    // Número de opción en negrita + texto de la respuesta
+    const numSpan = document.createElement("span");
+    numSpan.className = "option-num";
+    numSpan.textContent = `${i + 1}. `;
+
+    const textSpan = document.createElement("span");
+    textSpan.textContent = opt.text;
+
+    btn.appendChild(numSpan);
+    btn.appendChild(textSpan);
+
     btn.addEventListener("click", () => selectOption(opt, btn));
     optionsList.appendChild(btn);
   });

@@ -433,6 +433,15 @@ body {
 .option-btn:disabled { cursor: not-allowed; opacity: 0.6; }
 .option-btn.selected:disabled { opacity: 1; }
 
+.option-num {
+  font-weight: 700;
+  color: var(--gold);
+  margin-right: 4px;
+  min-width: 1.5em;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
 /* ── Quiz Layout ────────────────────────────────────────────────── */
 .quiz-layout {
   display: flex;
